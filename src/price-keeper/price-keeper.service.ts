@@ -5,16 +5,16 @@ import priceFeedJson from '../abi/FastPriceFeed';
 import vaultPriceFeedJson from '../abi/VaultPriceFeed';
 import vaultJson from '../abi/Vault';
 import positionRouterJson from '../abi/PositionRouter';
-import { fetchPriceBits } from './utils';
-import { tokens } from './tokens';
+import { tokens } from '../configs/tokens';
+import { fetchPriceBits } from 'src/prices';
 
 const MAX_INCREASE_POSITIONS = 5;
 const MAX_DECREASE_POSITIONS = 5;
 const SYNC_INTERVAL = 10000;
 
 @Injectable()
-export class KeeperService {
-    private readonly logger = new Logger(KeeperService.name);
+export class PriceKeeperService {
+    private readonly logger = new Logger(PriceKeeperService.name);
     private client = this.web3Service.getClient('hmy');
     private gasLimit = 9721900;
     private accountAddress: string;
@@ -40,7 +40,9 @@ export class KeeperService {
 
         this.accountAddress = account.address;
 
-        this.syncPrice();
+        if (this.configService.get('services.priceKeeper')) {
+            this.syncPrice();
+        }
     }
 
     getPositionQueueLengths = async () => {

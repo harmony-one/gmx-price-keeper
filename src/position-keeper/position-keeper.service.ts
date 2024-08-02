@@ -33,7 +33,9 @@ export class PositionKeeperService {
             this.configService.get('contracts.positionRouter')
         );
 
-        this.executePositions();
+        if (this.configService.get('services.priceKeeper')) {
+            this.executePositions();
+        }
     }
 
     getPositionQueueLengths = async () => {

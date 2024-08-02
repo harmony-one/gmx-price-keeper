@@ -1,4 +1,6 @@
-import { fetchPrices } from "./price-apis"
+import { fetchPrices } from './price-apis'
+
+export * from './price-apis'
 
 const BN = require('bn.js')
 
@@ -34,7 +36,7 @@ export async function fetchPriceBits(symbolsWithPrecisions) {
         .filter(({ symbol }) => !!prices[symbol])
         .map(({ symbol, precision }) => normalizePrice(prices[symbol], precision));
 
-    return { prices, priceBits: getPriceBits(normalizedPrices) };
+    return { prices, priceBits: getPriceBits(normalizedPrices), normalizedPrices };
 }
 
 export function normalizePrice(price, precision) {

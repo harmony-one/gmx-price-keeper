@@ -1,30 +1,15 @@
 import { Controller, Get } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { ConfigService } from '@nestjs/config';
-import { KeeperService } from './keeper.service';
+import { PriceKeeperService } from './price-keeper.service';
 
-@ApiTags('keeper')
-@Controller('keeper')
-export class KeeperController {
+@ApiTags('price-keeper')
+@Controller('price-keeper')
+export class PriceKeeperController {
   constructor(
     private readonly configService: ConfigService,
-    private readonly keeperService: KeeperService
+    private readonly keeperService: PriceKeeperService
   ) { }
-  @Get('/version')
-  getVersion() {
-    return this.configService.get('version');
-  }
-
-  @Get('/status')
-  getStatus() {
-    return 'OK';
-  }
-
-  @Get('/config')
-  getConfig() {
-    return {};
-  }
-
   @Get('/test')
   getTest() {
     return this.keeperService.test();

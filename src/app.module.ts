@@ -2,11 +2,12 @@ import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import configuration from './config';
+import configuration from './configs/config';
 import { Web3Module } from 'nest-web3';
 import { PrometheusModule } from '@willsoto/nestjs-prometheus';
-import { KeeperModule } from './keeper/keeper.module';
+import { PriceKeeperModule } from './price-keeper/price-keeper.module';
 import { PositionKeeperModule } from './position-keeper/position-keeper.module';
+import { WatcherModule } from './watcher/watcher.module';
 
 @Module({
   imports: [
@@ -20,26 +21,13 @@ import { PositionKeeperModule } from './position-keeper/position-keeper.module';
       ],
       inject: [ConfigService],
     }),
-    // TypeOrmModule.forRootAsync({
-    //   imports: [ConfigModule],
-    //   useFactory: (configService: ConfigService) => ({
-    //     type: 'postgres',
-    //     host: configService.get('DB_HOST'),
-    //     port: +configService.get<number>('DB_PORT'),
-    //     username: configService.get('DB_USERNAME'),
-    //     password: configService.get('DB_PASSWORD'),
-    //     database: configService.get('DB_NAME'),
-    //     entities: entities,
-    //     synchronize: true,
-    //   }),
-    //   inject: [ConfigService],
-    // }),
     Web3Module,
-    KeeperModule,
-    // PositionKeeperModule,
+    WatcherModule,
+    PriceKeeperModule,
+    PositionKeeperModule,
     PrometheusModule.register(),
   ],
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule {}
+export class AppModule { }

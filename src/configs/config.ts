@@ -6,6 +6,11 @@ export default () => ({
     name: 'hmy',
     url: process.env.HMY_NODE_URL,
   },
+  services: {
+    priceKeeper: process.env.PRICE_KEEPER_ENABLE || false,
+    positionKeeper: process.env.POSITION_KEEPER_ENABLE || false,
+    watcher: process.env.WATCHER_ENABLE || false,
+  },
   contracts: {
     fastPriceFeed: contracts.FastPriceFeed,
     positionRouter: contracts.PositionRouter,
